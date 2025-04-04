@@ -1,0 +1,12 @@
+#pragma once
+
+#include "NativeGameplayTags.h"
+
+namespace BSLGameplayTags
+{
+	BSLCONTEXTEFFECTS_API	UE_DECLARE_GAMEPLAY_TAG_EXTERN(ContextEffect_Event);
+	BSLCONTEXTEFFECTS_API	UE_DECLARE_GAMEPLAY_TAG_EXTERN(ContextEffect_Modifier);
+	BSLCONTEXTEFFECTS_API	UE_DECLARE_GAMEPLAY_TAG_EXTERN(ContextEffect_Modifier_Context);
+	BSLCONTEXTEFFECTS_API	UE_DECLARE_GAMEPLAY_TAG_EXTERN(ContextEffect_Context_Default);
+	BSLCONTEXTEFFECTS_API	UE_DECLARE_GAMEPLAY_TAG_EXTERN(ContextEffect_Context_SurfaceType);
+}
