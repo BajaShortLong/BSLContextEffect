@@ -19,4 +19,4 @@ This plugin fully supports single and multiplayer netmodes. However, it doesn't 
 Its worth noting that effects are only relevant to clients and should only be considered cosmetic.
 
 ## Architecture
-[architecture diagram](/Resources/arch-diagram.png)
+![architecture diagram](/Resources/arch-diagram.png)
