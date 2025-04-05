@@ -14,6 +14,8 @@ UAnimNotifyState_BSLContextEffects::UAnimNotifyState_BSLContextEffects()
 #if WITH_EDITORONLY_DATA
 	NotifyColor = FColor::Yellow;
 #endif
+
+	ContextEffectData.EffectModifiers.Add(NewObject<UBSLEffectModifier_RelativeToMeshComponent>());
 }
 
 FString UAnimNotifyState_BSLContextEffects::GetNotifyName_Implementation() const

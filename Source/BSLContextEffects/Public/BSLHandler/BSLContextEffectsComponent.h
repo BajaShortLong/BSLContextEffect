@@ -98,11 +98,14 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Effect Routing Rules")
 	TObjectPtr<UDataTable> RoutingRulesTable;
 
+<<<<<<< HEAD
 	/*// Datatable containing effect modifiers we want to register
 	// Effect modifiers are only used when a matchign gameplay tag is passed in through FBSLContextEffectData
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Effect Modifiers")
 	TObjectPtr<UDataTable> EffectModifierTable;*/
 
+=======
+>>>>>>> dev
 #if WITH_EDITORONLY_DATA
 	// AnimEffect tags to debug
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Debug")
@@ -114,9 +117,12 @@ protected:
 	UPROPERTY(Transient)
 	FGameplayTagContainer CurrentContexts;
 
+<<<<<<< HEAD
 	/*UPROPERTY(Transient)
 	TMap<FGameplayTag, UBSLEffectModifierBase*> EffectModifierMap;*/
 
+=======
+>>>>>>> dev
 	UPROPERTY(Transient)
 	TSet<TSoftObjectPtr<UBSLContextEffectsLibrary>> CurrentContextEffectsLibraries;
 
@@ -124,9 +130,12 @@ protected:
 	TArray<UBSLLoadedEffect*> ActiveContextEffects;
 	
 	TArray<FBSLContextEffectRoutingRule*> EffectRoutingRules;
+<<<<<<< HEAD
 	/*
 	TArray<FBSLEffectModifierDefinition*> EffectModifiers;
 	*/
+=======
+>>>>>>> dev
 
 	UPROPERTY(Transient)
 	TMap<FGameplayTag, AActor*> RuleCurrentHandlerMap;

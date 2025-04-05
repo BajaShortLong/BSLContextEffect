@@ -56,7 +56,7 @@ struct FBSLStateEffectRuleRow : public FTableRowBase
  *			ASC->OnActiveTagsChanged.AddUniqueDynamic(this, &ThisClass::HandleActiveTagsChanged);
  *		}
  */
-UCLASS(ClassGroup=(Custom), hidecategories = (Variable, Tags, ComponentTick, ComponentReplication, Activation, Cooking, AssetUserData, Collision),
+UCLASS(Blueprintable, Abstract, ClassGroup=(Custom), hidecategories = (Variable, Tags, ComponentTick, ComponentReplication, Activation, Cooking, AssetUserData, Collision),
 	CollapseCategories, meta=(BlueprintSpawnableComponent))
 class BSLCONTEXTEFFECTS_API UBSLStateChangeComponent : public UActorComponent
 {
@@ -74,17 +74,13 @@ public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="EffectData")
 	void SetCacheables();
 
-	// Intended for scenarios when initial change events didn't occur (client reconnecting, late join, etc)
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="State")
-	void EvaluateState();
-
 protected:
 	
 	virtual void BeginPlay() override;
 	void RegisterStateEffectRules();
 
 	// Support ContextEffects outside of animations by being able to react to `State.*` tag changes
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	virtual void HandleActiveTagsChanged(FGameplayTagContainer AddedTags, FGameplayTagContainer RemovedTags, const FGameplayTagContainer CurrentTags);
 
 	virtual FBSLContextEffectData PrepareEffectData(FGameplayTag EffectTag);

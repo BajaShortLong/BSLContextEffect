@@ -52,6 +52,15 @@ struct BSLCONTEXTEFFECTS_API FBSLEffectParameterVectors : public FBSLEffectParam
 	GENERATED_BODY()
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta=(ForceInlineRow, ShowOnlyInnerProperties))
-	TMap<FName, FVector> VectorsParams;
+	TMap<FName, FVector> VectorParams;
+};
+
+USTRUCT(BlueprintType)
+struct BSLCONTEXTEFFECTS_API FBSLEffectParameterInts : public FBSLEffectParameter
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta=(ForceInlineRow, ShowOnlyInnerProperties))
+	TMap<FName, int32> IntParams;
 };
 

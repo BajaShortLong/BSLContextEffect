@@ -29,12 +29,6 @@ void UBSLStateChangeComponent::SetCacheables_Implementation()
 	check(MeshComponent);
 }
 
-void UBSLStateChangeComponent::EvaluateState_Implementation()
-{
-	// FGameplayTagContainer CurrentStateTagContainer = current state tags from SourceOfTruth
-	// HandleActiveTagsChanged(CurrentStateTagContainer, FGameplayTagContainer::EmptyContainer)
-}
-
 // Called when the game starts
 void UBSLStateChangeComponent::BeginPlay()
 {

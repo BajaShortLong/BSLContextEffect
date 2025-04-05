@@ -73,11 +73,7 @@ struct FBSLContextEffectData
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Effect")
 	TArray<FInstancedStruct> CustomData = TArray<FInstancedStruct>{};
-
-	/*// Whether this effect is spawned on all clients or just the locally controlled owner of the effect
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Effect")
-	bool bLocallyControlledOnly = false;*/
-
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta =(ShowOnlyInnerProperties, FullyExpand=true), Category = "Effect")
 	TArray<TObjectPtr<UBSLEffectModifierBase>> EffectModifiers;
 	
@@ -111,7 +107,6 @@ struct FBSLContextEffectData
 	UPROPERTY(EditInstanceOnly, BlueprintReadWrite, Category = "Effect")
 	FName LoadedEffectTag = FName("None");
 };
-
 
 
 /*
