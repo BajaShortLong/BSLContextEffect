@@ -11,6 +11,9 @@ In an attempt to solve this issue, this plugin combines predefined sets of effec
 > [!WARNING]
 > This plugin isn't suitable for all projects and likely overkill for any project that only has a single playable character and limited effect variation. You'd be better off using a system closer to Lyra's ContextEffects since this plugin would likely add unneccessary complexity.
 
+> [!Tip]
+> Check out the [sample project](https://github.com/BajaShortLong/BSLContextEffectsSampleProject)
+
 ## Supported Effects
 - NiagaraSystem
 - SoundBase (MetaSounds)
