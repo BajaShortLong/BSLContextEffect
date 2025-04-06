@@ -153,7 +153,7 @@ void UBSLEffect_NiagaraSystem::ApplyNiagaraComponentParameters(UNiagaraComponent
 		if (FBSLEffectParameterBools::StaticStruct() == param.GetScriptStruct())
 		{
 			FBSLEffectParameterBools bools = param.Get<FBSLEffectParameterBools>();
-			for (const auto& boolParam : bools.BoolsParams)
+			for (const auto& boolParam : bools.BoolParams)
 			{
 				NiagaraComponent->SetVariableBool(boolParam.Key, boolParam.Value);
 #if WITH_EDITORONLY_DATA
@@ -162,11 +162,76 @@ void UBSLEffect_NiagaraSystem::ApplyNiagaraComponentParameters(UNiagaraComponent
 #endif
 			}			
 		}
+
+		if (FBSLEffectParameterInts::StaticStruct() == param.GetScriptStruct())
+		{
+			FBSLEffectParameterInts ints = param.Get<FBSLEffectParameterInts>();
+			for (const auto& intParam : ints.IntParams)
+			{
+				NiagaraComponent->SetVariableInt(intParam.Key, intParam.Value);
+#if WITH_EDITORONLY_DATA
+				WriteDebugMessage(ContextEffectData, FString::Printf(TEXT("%s: Set int parameter name: %s value: %hhd for Effect %s on %s"), *GetClientServerContextString(),
+					*intParam.Key.ToString(), intParam.Value, *ContextEffectData.EffectTag.ToString(), *ContextEffectData.StaticMeshComponent->GetOwner()->GetName()));
+#endif
+			}			
+		}
+
+		if (FBSLEffectParameterVectors::StaticStruct() == param.GetScriptStruct())
+		{
+			FBSLEffectParameterVectors vectors = param.Get<FBSLEffectParameterVectors>();
+			for (const auto& vectorParam : vectors.VectorParams)
+			{
+				NiagaraComponent->SetVariableVec3(vectorParam.Key, vectorParam.Value);
+#if WITH_EDITORONLY_DATA
+				WriteDebugMessage(ContextEffectData, FString::Printf(TEXT("%s: Set vector parameter name: %s value: %s for Effect %s on %s"), *GetClientServerContextString(),
+					*vectorParam.Key.ToString(), *vectorParam.Value.ToString(), *ContextEffectData.EffectTag.ToString(), *ContextEffectData.StaticMeshComponent->GetOwner()->GetName()));
+#endif
+			}			
+		}
 		
+		if (FBSLEffectParameterTextures::StaticStruct() == param.GetScriptStruct())
+		{
+			FBSLEffectParameterTextures textures = param.Get<FBSLEffectParameterTextures>();
+			for (const auto& textureParam : textures.TextureParams)
+			{
+				NiagaraComponent->SetVariableTexture(textureParam.Key, textureParam.Value);
+#if WITH_EDITORONLY_DATA
+				WriteDebugMessage(ContextEffectData, FString::Printf(TEXT("%s: Set int parameter name: %s value: %s for Effect %s on %s"), *GetClientServerContextString(),
+					*textureParam.Key.ToString(), *textureParam.Value.GetName(), *ContextEffectData.EffectTag.ToString(), *ContextEffectData.StaticMeshComponent->GetOwner()->GetName()));
+#endif
+			}			
+		}
+
 		if (FBSLEffectParameterColors::StaticStruct() == param.GetScriptStruct())
 		{
 			FBSLEffectParameterColors colors = param.Get<FBSLEffectParameterColors>();
 			for (const auto& colorParam : colors.ColorParams)
+			{
+				NiagaraComponent->SetVariableLinearColor(colorParam.Key, colorParam.Value);
+#if WITH_EDITORONLY_DATA
+				WriteDebugMessage(ContextEffectData, FString::Printf(TEXT("%s: Set int parameter name: %s value: %s for Effect %s on %s"), *GetClientServerContextString(),
+					*colorParam.Key.ToString(), *colorParam.Value.ToString(), *ContextEffectData.EffectTag.ToString(), *ContextEffectData.StaticMeshComponent->GetOwner()->GetName()));
+#endif
+			}			
+		}
+
+		if (FBSLEffectParameterColorArrays::StaticStruct() == param.GetScriptStruct())
+		{
+			FBSLEffectParameterColorArrays colors = param.Get<FBSLEffectParameterColorArrays>();
+			for (const auto& colorParam : colors.ColorArrayParams)
+			{
+				UNiagaraDataInterfaceArrayFunctionLibrary::SetNiagaraArrayColor(NiagaraComponent, colorParam.Key, colorParam.Value.Colors);
+#if WITH_EDITORONLY_DATA
+				WriteDebugMessage(ContextEffectData, FString::Printf(TEXT("%s: Set colors parameter name: %s for Effect %s on %s"), *GetClientServerContextString(),
+					*colorParam.Key.ToString(), *ContextEffectData.EffectTag.ToString(), *ContextEffectData.StaticMeshComponent->GetOwner()->GetName()));
+#endif
+			}
+		}
+		
+		if (FBSLEffectParameterColorArrays::StaticStruct() == param.GetScriptStruct())
+		{
+			FBSLEffectParameterColorArrays colors = param.Get<FBSLEffectParameterColorArrays>();
+			for (const auto& colorParam : colors.ColorArrayParams)
 			{
 				UNiagaraDataInterfaceArrayFunctionLibrary::SetNiagaraArrayColor(NiagaraComponent, colorParam.Key, colorParam.Value.Colors);
 #if WITH_EDITORONLY_DATA

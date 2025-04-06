@@ -136,7 +136,7 @@ void UBSLEffect_ForceFeedback::ApplyForceFeedbackComponentParameters(UForceFeedb
 		if (FBSLEffectParameterBools::StaticStruct() == param.GetScriptStruct())
 		{
 			FBSLEffectParameterBools bools = param.Get<FBSLEffectParameterBools>();
-			for (const auto& boolParam : bools.BoolsParams)
+			for (const auto& boolParam : bools.BoolParams)
 			{
 				//ForceFeedbackComponent->SetVariableBool(boolParam.Key, boolParam.Value);
 #if WITH_EDITORONLY_DATA

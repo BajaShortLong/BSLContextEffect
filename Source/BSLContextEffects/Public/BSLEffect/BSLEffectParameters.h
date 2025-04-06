@@ -34,7 +34,7 @@ struct BSLCONTEXTEFFECTS_API FBSLEffectParameterBools : public FBSLEffectParamet
 	GENERATED_BODY()
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta=(ForceInlineRow))
-	TMap<FName, bool> BoolsParams;
+	TMap<FName, bool> BoolParams;
 };
 
 USTRUCT(BlueprintType)
@@ -43,7 +43,16 @@ struct BSLCONTEXTEFFECTS_API FBSLEffectParameterColors : public FBSLEffectParame
 	GENERATED_BODY()
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta=(ForceInlineRow, ShowOnlyInnerProperties))
-	TMap<FName, FLinearColorArray> ColorParams;
+	TMap<FName, FLinearColor> ColorParams;
+};
+
+USTRUCT(BlueprintType)
+struct BSLCONTEXTEFFECTS_API FBSLEffectParameterColorArrays : public FBSLEffectParameter
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta=(ForceInlineRow, ShowOnlyInnerProperties))
+	TMap<FName, FLinearColorArray> ColorArrayParams;
 };
 
 USTRUCT(BlueprintType)
@@ -63,4 +72,14 @@ struct BSLCONTEXTEFFECTS_API FBSLEffectParameterInts : public FBSLEffectParamete
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta=(ForceInlineRow, ShowOnlyInnerProperties))
 	TMap<FName, int32> IntParams;
 };
+
+USTRUCT(BlueprintType)
+struct BSLCONTEXTEFFECTS_API FBSLEffectParameterTextures : public FBSLEffectParameter
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta=(ForceInlineRow, ShowOnlyInnerProperties))
+	TMap<FName, TObjectPtr<UTexture>> TextureParams;
+};
+
 
