@@ -27,6 +27,10 @@ public:
 
 	virtual UBSLLoadedEffect* MakeLoadedEffect_Implementation() override;
 	virtual TArray<UClass*> GetAllowedAssetClass_Implementation() const override;
+
+	// Camera shakes pass in a class instead of object so we need to set this instead of EffectObject
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	FSoftClassPath EffectClass;
 };
 
 /**

@@ -125,7 +125,11 @@ void UBSLContextEffectsComponent::HandleEndEffect_Implementation(FName LoadedEff
 
 FGameplayTagContainer UBSLContextEffectsComponent::GetDebugTags_Implementation()
 {
+#if WITH_EDITORONLY_DATA
 	return DebugTags;
+#else
+	return FGameplayTagContainer::EmptyContainer;
+#endif
 }
 
 void UBSLContextEffectsComponent::UpdateEffectContexts(FGameplayTagContainer NewEffectContexts)
@@ -236,6 +240,11 @@ void UBSLContextEffectsComponent::ModifyEffect(FBSLContextEffectData& ContextEff
 {
 	for (const auto& effectModifier : ContextEffectData.EffectModifiers)
 	{
+		if (!effectModifier)
+		{
+			continue;
+		}
+		
 		effectModifier->ModifyEffect(ContextEffectData);
 #if WITH_EDITORONLY_DATA
 		if (!DebugTags.IsEmpty())

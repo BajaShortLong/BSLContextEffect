@@ -69,6 +69,10 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void UpdateLibraries(TSet<TSoftObjectPtr<UBSLContextEffectsLibrary>> NewContextEffectsLibraries);
 
+	// Returns the effect of specified class and event tag if one exists for this ContextEffectComponent
+	/*UFUNCTION(BlueprintCallable, Category = "ContextEffects")
+	UObject* GetContextEffect(TSubclassOf<UBSLLoadedEffect> EffectType, FGameplayTag EventTag);*/
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
@@ -98,17 +102,18 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Effect Routing Rules")
 	TObjectPtr<UDataTable> RoutingRulesTable;
 
+	UPROPERTY(Transient)
+	FGameplayTagContainer CurrentContexts;
+	
 #if WITH_EDITORONLY_DATA
 	// AnimEffect tags to debug
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Debug")
 	FGameplayTagContainer DebugTags;
 #endif
 
+	
 protected:
 	
-	UPROPERTY(Transient)
-	FGameplayTagContainer CurrentContexts;
-
 	UPROPERTY(Transient)
 	TSet<TSoftObjectPtr<UBSLContextEffectsLibrary>> CurrentContextEffectsLibraries;
 

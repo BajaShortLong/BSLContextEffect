@@ -8,6 +8,9 @@ In an attempt to solve this issue, this plugin combines predefined sets of effec
 > [!Note]
 > Tested with UE 5.5
 
+> [!CAUTION]
+> This is very much in active development and updates may make substantial changes
+
 > [!WARNING]
 > This plugin isn't suitable for all projects and likely overkill for any project that only has a single playable character and limited effect variation. You'd be better off using a system closer to Lyra's ContextEffects since this plugin would likely add unneccessary complexity.
 

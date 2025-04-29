@@ -14,7 +14,7 @@ class UBSLContextEffectsComponent;
 
 // Rows that describe a translation rule between "State" tags and ContextEffects
 USTRUCT(BlueprintType)
-struct FBSLStateEffectRuleRow : public FTableRowBase
+struct FBSLStateEffectRule
 {
 	GENERATED_BODY()
 
@@ -31,12 +31,12 @@ struct FBSLStateEffectRuleRow : public FTableRowBase
 
 	// Only valid when bOnAdded=true. This will override bOnRemoved.
 	// Will send a request to destroy any spawned effects when the StateTag is removed.
-	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category="Destroy")
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category="Removal")
 	bool bDestroyOnTagRemoved = false;
 
 	// Wait until all instances of tag have been removed before killing context effects.
 	// Requires active tags are passed to HandleActiveTagsChanged()
-	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, meta = (EditCondition = "bOnAdded"), Category="Destroy")
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, meta = (EditCondition = "bOnAdded"), Category="Removal")
 	bool bWaitForAllInstances = false;
 	
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, meta = (EditCondition = "bOnAdded", EditConditionHides))
@@ -46,8 +46,19 @@ struct FBSLStateEffectRuleRow : public FTableRowBase
 	FBSLContextEffectData RemovedEffectData;
 };
 
+UCLASS(BlueprintType)
+class UBSLStateEffectRules : public UDataAsset
+{
+	GENERATED_BODY()
+
+public:
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(TitleProperty="{StateTag}"))
+	TArray<FBSLStateEffectRule> Rules;
+};
+
 /*
- *	Component that watches for gameplay tag changes and fires off effects based on StateEffectRuleTable
+ *	Component that watches for gameplay tag changes and fires off effects based on rules in StateEffectRulesAsset
  *	To implement, BindToSourceOfTruth() must be overridden to bind some GameplayTag event to HandleActiveTagsChanged
  *	Using GMAS and a child of UGMC_AbilitySystemComponent, this could look like:
  *	
@@ -77,7 +88,10 @@ public:
 protected:
 	
 	virtual void BeginPlay() override;
+	virtual void Initialize();
+	
 	void RegisterStateEffectRules();
+	virtual void OnStateEffectRulesLoaded();
 
 	// Support ContextEffects outside of animations by being able to react to `State.*` tag changes
 	UFUNCTION(BlueprintCallable)
@@ -91,7 +105,7 @@ protected:
 public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Rules")
-	TObjectPtr<UDataTable> StateEffectRuleTable;
+	TSoftObjectPtr<UBSLStateEffectRules> StateEffectRulesAsset;
 
 protected:
 
@@ -101,8 +115,9 @@ protected:
 
 	FGameplayTagContainer RegisteredTagsForAdded;
 	FGameplayTagContainer RegisteredTagsForRemoved;
-
-	TArray<FBSLStateEffectRuleRow*> StateEffectRules;
+	
+	UPROPERTY()
+	TObjectPtr<UBSLStateEffectRules> StateEffectRules;
 
 	TObjectPtr<USkeletalMeshComponent> MeshComponent;
 	TObjectPtr<UBSLContextEffectsComponent> ContextEffectsComponent;

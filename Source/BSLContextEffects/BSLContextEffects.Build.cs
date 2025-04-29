@@ -40,7 +40,7 @@ public class BSLContextEffects : ModuleRules
 				"SlateCore",
 				"PhysicsCore",
 				"DeveloperSettings",
-				"EngineCameras"
+				"EngineCameras",
 			}
 			);
 		

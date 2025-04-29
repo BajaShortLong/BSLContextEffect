@@ -18,10 +18,14 @@ UBSLLoadedEffect* UBSLEffectDefinition_CameraShake::MakeLoadedEffect_Implementat
 {
 	UBSLEffect_CameraShake* loadedEffect = NewObject<UBSLEffect_CameraShake>(GetOuter());
 	
-	// If we spawn a blueprint class we need to create the object the blueprint class is of
-	UBlueprint* blueprintAsset = Cast<UBlueprint>(EffectAsset.ResolveObject());
-	loadedEffect->Effect = NewObject<UDefaultCameraShakeBase>(GetOuter(), blueprintAsset->GeneratedClass);
-	loadedEffect->EffectDefinition = this;
+	ensureAlwaysMsgf(EffectClass.IsValid(), TEXT("EffectClass must be set for CameraShake definitions!"));
+	
+	// Try to load class syncrhonously, should be loaded async
+	if (UClass* blueprintAsset = EffectClass.TryLoadClass<UDefaultCameraShakeBase>())
+	{
+		loadedEffect->Effect = NewObject<UDefaultCameraShakeBase>(GetOuter(), blueprintAsset);
+		loadedEffect->EffectDefinition = this;
+	}
 	
 	return loadedEffect;
 }

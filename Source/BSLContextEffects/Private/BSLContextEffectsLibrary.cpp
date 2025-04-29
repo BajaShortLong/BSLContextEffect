@@ -13,7 +13,7 @@ void UBSLContextEffectsLibrary::GetEffects(const FBSLContextEffectData& ContextE
 {
 	// Make sure Effect is valid and Library is loaded
 	if (ContextEffectData.EffectTag.IsValid() && ContextEffectData.Contexts.IsValid() && EffectsLoadState == EBSLContextEffectsLibraryLoadState::Loaded)
-	{
+	{		
 		// Loop through Context Effects
 		for (const FBSLActiveContextEffect& contextEffect : ActiveContextEffects)
 		{
@@ -45,12 +45,6 @@ void UBSLContextEffectsLibrary::GetEffects(const FBSLContextEffectData& ContextE
 						}
 					}
 				}
-
-				// Check if this qualifies for default if we don't match other contexts
-				if (contextEffect.Context.HasTagExact(BSLGameplayTags::ContextEffect_Context_Default))
-				{
-					OutEffects.Append(contextEffect.Effects);
-				}
 			}
 		}
 	}
@@ -59,7 +53,7 @@ void UBSLContextEffectsLibrary::GetEffects(const FBSLContextEffectData& ContextE
 void UBSLContextEffectsLibrary::LoadEffects()
 {
 	// Load Effects into Library if not currently loading or loaded
-	if (EffectsLoadState != EBSLContextEffectsLibraryLoadState::Loaded)
+	if (EffectsLoadState == EBSLContextEffectsLibraryLoadState::Unloaded)
 	{
 		// Set load state to loading
 		EffectsLoadState = EBSLContextEffectsLibraryLoadState::Loading;
