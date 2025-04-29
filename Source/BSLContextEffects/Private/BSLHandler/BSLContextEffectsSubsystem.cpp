@@ -51,21 +51,26 @@ void UBSLContextEffectsSubsystem::SpawnContextEffects(const AActor* SpawningActo
 			{
 				// Should probably just not add locally controlled only effects to actors map for non-locally controlled actors
 				const APawn* owningPawn = Cast<APawn>(SpawningActor);
-				if (owningPawn && effect->EffectDefinition->bLocallyControlledOnly && !owningPawn->IsLocallyControlled())
+				if (owningPawn && effect->EffectDefinition->bLocallyControlledOnly && (!owningPawn->IsPlayerControlled() || !owningPawn->IsLocallyControlled()))
 				{
+#if WITH_EDITORONLY_DATA
+					WriteDebugMessage(ContextEffectData, FString::Printf(TEXT("%s: Skipping spawn of %s FX for %s from effect tag %s"), *GetClientServerContextString(),
+						*effect->GetName(), *SpawningActor->GetName(), *ContextEffectData.EffectTag.ToString()));
+#endif
 					continue;
 				}
 
 				// Create another effect because we don't want to be spawning from the effect loaded from the library
 				UBSLLoadedEffect* newEffect = effect->EffectDefinition->MakeLoadedEffect();
-				newEffect->SpawnEffect(ContextEffectData);
-				
-				OutEffects.Add(newEffect);
 				
 	#if WITH_EDITORONLY_DATA
 				WriteDebugMessage(ContextEffectData, FString::Printf(TEXT("%s: Spawning %s FX for %s from effect tag %s"), *GetClientServerContextString(),
-					*effect->GetName(), *SpawningActor->GetName(), *ContextEffectData.EffectTag.ToString()));
+					*newEffect->GetName(), *SpawningActor->GetName(), *ContextEffectData.EffectTag.ToString()));
 	#endif
+				
+				newEffect->SpawnEffect(ContextEffectData);
+				
+				OutEffects.Add(newEffect);
 			}
 		}
 	}

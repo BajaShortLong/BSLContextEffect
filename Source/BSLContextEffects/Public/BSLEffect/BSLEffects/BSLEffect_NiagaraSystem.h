@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "NiagaraSystem.h"
 #include "BSLEffect/BSLEffectDefinition.h"
+#include "BSLHandler/BSLEffectModifiers/BSLEffectModifier_InitialVelocity.h"
 #include "BSLHandler/BSLEffectModifiers/BSLEffectModifier_Trace.h"
 #include "BSLEffect_NiagaraSystem.generated.h"
 
@@ -36,7 +37,7 @@ public:
 protected:
 
 	void GetNiagaraSettings(const FBSLContextEffectData& ContextEffectData, FBSLNiagaraSettings& OutNiagaraSettings,
-		FBSLHitResult& OutHitResult);
+		FBSLHitResult& OutHitResult, FBSLVelocity& OutVelocity);
 	
 	// Sets parameters in effect definition
 	void ApplyNiagaraComponentParameters(UNiagaraComponent* NiagaraComponent, const FBSLContextEffectData& ContextEffectData) const;

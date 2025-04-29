@@ -42,7 +42,8 @@ bool UBSLEffect_NiagaraSystem::SpawnEffect(const FBSLContextEffectData& ContextE
 	// Set NiagaraSystem settings from ContextEffectData.CustomData
 	FBSLNiagaraSettings niagaraSettings;
 	FBSLHitResult physMatHitResult;
-	GetNiagaraSettings(ContextEffectData, niagaraSettings, physMatHitResult);
+	FBSLVelocity initialVelocity;
+	GetNiagaraSettings(ContextEffectData, niagaraSettings, physMatHitResult, initialVelocity);
 
 	if (ContextEffectData.bAttached)
 	{
@@ -82,6 +83,12 @@ bool UBSLEffect_NiagaraSystem::SpawnEffect(const FBSLContextEffectData& ContextE
 		NiagaraComponent->SetVariableInt(FName("SurfaceType"), surface);
 	}
 
+	// Set Velocity if applicable
+	if (!initialVelocity.Velocity.IsZero())
+	{
+		NiagaraComponent->SetVectorParameter(FName("InitialVelocity"), initialVelocity.Velocity);
+	}
+
 	// Tag spawned effect for future access
 	if (!ContextEffectData.LoadedEffectTag.IsNone())
 	{
@@ -108,7 +115,7 @@ bool UBSLEffect_NiagaraSystem::DestroyEffect()
 }
 
 void UBSLEffect_NiagaraSystem::GetNiagaraSettings(const FBSLContextEffectData& ContextEffectData,
-	FBSLNiagaraSettings& OutNiagaraSettings, FBSLHitResult& OutHitResult)
+	FBSLNiagaraSettings& OutNiagaraSettings, FBSLHitResult& OutHitResult, FBSLVelocity& OutVelocity)
 {
 	for (const auto& data : ContextEffectData.CustomData)
 	{
@@ -126,6 +133,15 @@ void UBSLEffect_NiagaraSystem::GetNiagaraSettings(const FBSLContextEffectData& C
 			OutHitResult = *hitResult;
 #if WITH_EDITORONLY_DATA
 			WriteDebugMessage(ContextEffectData, FString::Printf(TEXT("%s: Set HitResult for Effect %s on %s"), *GetClientServerContextString(),
+				*ContextEffectData.EffectTag.ToString(), *ContextEffectData.StaticMeshComponent->GetOwner()->GetName()));
+#endif
+		}
+
+		if (const FBSLVelocity* initialVelocity = data.GetPtr<FBSLVelocity>())
+		{
+			OutVelocity = *initialVelocity;
+#if WITH_EDITORONLY_DATA
+			WriteDebugMessage(ContextEffectData, FString::Printf(TEXT("%s: Set InitialVelocity for Effect %s on %s"), *GetClientServerContextString(),
 				*ContextEffectData.EffectTag.ToString(), *ContextEffectData.StaticMeshComponent->GetOwner()->GetName()));
 #endif
 		}
